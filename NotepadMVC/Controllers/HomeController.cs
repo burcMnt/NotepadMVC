@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using NotepadMVC.Data;
 using NotepadMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 
 namespace NotepadMVC.Controllers
@@ -12,15 +14,26 @@ namespace NotepadMVC.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext db;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,ApplicationDbContext db)
         {
             _logger = logger;
+            this.db = db;
         }
 
         public IActionResult Index()
         {
-            return View();
+            //giriş yapmış kullanıcı yok ise
+            if (!User.Identity.IsAuthenticated)
+            {
+                return View("IndexAnonymous");
+            }
+            //giriş yapmış kullanıcının Id si
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+             
+            return View(db.Notes.Where(x =>x.AuthorId == userId).ToList());
         }
 
         public IActionResult Privacy()
