@@ -1,0 +1,7 @@
+﻿@model NoteViewModel
+<form asp-controller="Notes" asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" />
+    <span>@Model.Content this note will be delete, Do you approve?  </span>
+    <button class="btn btn-primary">Yes, Delete</button>
+</form>
+<a asp-controller="Home" asp-action="Index"> Back to the Note page</a>

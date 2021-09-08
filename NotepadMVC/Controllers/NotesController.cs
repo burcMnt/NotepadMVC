@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NotepadMVC.Data;
+using NotepadMVC.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,6 +30,56 @@ namespace NotepadMVC.Controllers
             {
                 note.AuthorId = User.FindFirst(ClaimTypes.NameIdentifier).Value; // Kimin giriş yaptıgını söyler ki
                 db.Notes.Add(note);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+        public IActionResult Delete(int id)
+        {
+            Note note = db.Notes.Find(id);
+            if (note == null)
+            {
+                return NotFound();
+            }
+            NoteViewModel nvm = new NoteViewModel();
+            nvm.Id = note.Id;
+            nvm.Title = note.Title;
+            nvm.Content = note.Content;
+            return View(nvm);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Delete(NoteViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Note note1 = db.Notes.FirstOrDefault(x => x.Id.Equals(model.Id));
+                db.Notes.Remove(note1);
+                db.SaveChanges();
+                return RedirectToAction("Index", "Home");
+            }
+            return View();
+        }
+        public IActionResult Edit(int id)
+        {
+            Note note = db.Notes.Find(id);
+            if (note == null)
+            {
+                return NotFound();
+            }
+            NoteViewModel nvm = new NoteViewModel();
+            nvm.Id = note.Id;
+            nvm.Title = note.Title;
+            nvm.Content = note.Content;
+            return View(nvm);
+        }
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult Edit(NoteViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                Note note1 = db.Notes.FirstOrDefault(x => x.Id.Equals(model.Id));
+                note1.Content = model.Content;
                 db.SaveChanges();
                 return RedirectToAction("Index", "Home");
             }
