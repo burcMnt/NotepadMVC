@@ -20,7 +20,7 @@
                 <td>@user.Email</td>
                 <td>@user.RegistrationTime</td>
                 <td>
-                    <input type="checkbox" @(active ? "checked" : "") data-user-change-status="@user.Id">
+                    <input type="checkbox" @(active ? "checked" : "") data-user-change-status="@user.Id" data-bootstrap-switch>
 
                 </td>
             </tr>
@@ -29,13 +29,30 @@
 </table>
 @section Scripts {
     <script>
-        $("[data-user-change-status]").change(function (event) {
+        $("input[data-bootstrap-switch]").each(function () {
+            $(this).bootstrapSwitch({
+                state: $(this).prop('checked'),
+                onText: "Yes",
+                offText: "No",
+                onColor: "success",
+                offColor: "danger",
+                onSwitchChange: function (event, state) {
+                    var chk = this;
+                    var userId = $(chk).data("user-change-status");
+                    $.post("@Url.Action("ChangeStatus", "Users")", { userId: userId, active: state }, function (data) {
+                        toastr.success("Status changed !");
+                    });
+                }
+            });
+        });
+
+        @*$("[data-bootstrap-switch]").change(function (event) {
             var chk = this;
             var checked = $(chk).prop("checked");
             var userId = $(chk).data("user-change-status");
             $.post("@Url.Action("ChangeStatus", "Users")", { userId: userId, active: checked }, function (data) {
                 toastr.success("Status changed !");
             });
-        });
+        });*@
     </script>
 }
