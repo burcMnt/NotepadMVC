@@ -23,7 +23,7 @@ namespace NotepadMVC.Data
                 ApplicationUser adminUser = new ApplicationUser()
                 {
                     UserName = "admin@example.com",
-                    Email = "Admin@example.com",
+                    Email = "admin@example.com",
                     EmailConfirmed = true
                 };
                 await userManager.CreateAsync(adminUser,"P@ssword1");

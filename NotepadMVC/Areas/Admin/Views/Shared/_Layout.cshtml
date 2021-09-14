@@ -13,6 +13,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Ionicons -->
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <!--Toaster-->
+    <link href="~/admin/plugins/toastr/toastr.min.css" rel="stylesheet" />
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="~/admin/plugins/fontawesome-free/css/all.min.css">
     <!-- Theme style -->
@@ -29,10 +31,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
                 <li class="nav-item d-none d-sm-inline-block">
-                    <a href="index3.html" class="nav-link">Home</a>
-                </li>
-                <li class="nav-item d-none d-sm-inline-block">
-                    <a href="#" class="nav-link">Contact</a>
+                    <a asp-area="" asp-controller="Home" asp-action="Index" class="nav-link"><i class="fas fa-external-link-alt"></i>Show Notepad</a>
                 </li>
             </ul>
 
@@ -161,9 +160,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a href="index3.html" class="brand-link">
+            <a asp-controller="Dashboard" asp-action="Index" class="brand-link">
                 <img src="~/admin/dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-                <span class="brand-text font-weight-light">AdminLTE 3</span>
+                <span class="brand-text font-weight-light">Notepad</span>
             </a>
 
             <!-- Sidebar -->
@@ -174,7 +173,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                         <img src="~/admin/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
                     </div>
                     <div class="info">
-                        <a href="#" class="d-block">Alexander Pierce</a>
+                        <a href="#" class="d-block">@User.Identity.Name</a>
                     </div>
                 </div>
 
@@ -194,44 +193,33 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <nav class="mt-2">
                     <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
                         <!-- Add icons to the links using the .nav-icon class
-                             with font-awesome or any other icon font library -->
+                        with font-awesome or any other icon font library -->
                         <li class="nav-item menu-open">
                             <a href="#" class="nav-link active">
                                 <i class="nav-icon fas fa-tachometer-alt"></i>
                                 <p>
-                                    Starter Pages
+                                    Management
                                     <i class="right fas fa-angle-left"></i>
                                 </p>
                             </a>
                             <ul class="nav nav-treeview">
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link active">
+                                    <a asp-controller="Notes" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Active Page</p>
+                                        <p>Notes</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="#" class="nav-link">
+                                    <a asp-controller="Users" asp-action="Index" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>Inactive Page</p>
+                                        <p>Users</p>
                                     </a>
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="nav-icon fas fa-th"></i>
-                                <p>
-                                    Simple Link
-                                    <span class="right badge badge-danger">New</span>
-                                </p>
-                            </a>
-                        </li>
                     </ul>
                 </nav>
                 <!-- /.sidebar-menu -->
-            </div>
-            <!-- /.sidebar -->
         </aside>
 
         <!-- Content Wrapper. Contains page content -->
@@ -275,10 +263,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <footer class="main-footer">
             <!-- To the right -->
             <div class="float-right d-none d-sm-inline">
-                Anything you want
+                Management
             </div>
             <!-- Default to the left -->
-            <strong>Copyright &copy; 2014-2021 <a href="https://adminlte.io">AdminLTE.io</a>.</strong> All rights reserved.
+            <strong>All rights reserved ~ &copy; @DateTime.Now.Year </strong>
         </footer>
     </div>
     <!-- ./wrapper -->
@@ -287,8 +275,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <script src="~/admin/plugins/jquery/jquery.min.js"></script>
     <!-- Bootstrap 4 -->
     <script src="~/admin/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <!--Toaster-->
+    <script src="~/admin/plugins/toastr/toastr.min.js"></script>
     <!-- AdminLTE App -->
     <script src="~/admin/dist/js/adminlte.min.js"></script>
+    @await RenderSectionAsync("Scripts", false)
 </body>
 </html>
 

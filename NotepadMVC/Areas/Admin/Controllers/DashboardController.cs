@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 namespace NotepadMVC.Areas.Admin.Controllers
 {
     [Area("Admin")]
-   // [Authorize(Roles="admin")]
+    [Authorize(Roles="admin")]
     public class DashboardController : Controller
     {
         private readonly ApplicationDbContext db;
