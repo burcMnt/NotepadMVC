@@ -61,6 +61,7 @@ namespace NotepadMVC.Controllers
                     photo.CopyTo(fs);
                 }
                 ApplicationUser user = db.Users.Find(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                DeletePhotoFile(user.Photo);
                 user.Photo = newFileName;
                 db.SaveChanges();
                 return RedirectToAction("Index", new { result = "Successfuly uploaded" });
@@ -71,6 +72,27 @@ namespace NotepadMVC.Controllers
 
             };
             return View(vm);
+        }
+
+        [HttpPost, ValidateAntiForgeryToken]
+        public IActionResult DeletePhoto()
+        {
+            ApplicationUser user = db.Users.Find(User.FindFirstValue(ClaimTypes.NameIdentifier));
+            DeletePhotoFile(user.Photo);
+            user.Photo = null;
+            db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
+        private void DeletePhotoFile(string fileName)
+        {
+            if (!string.IsNullOrEmpty(fileName))
+            {
+                var photoPath = Path.Combine(env.WebRootPath, "uploads", fileName);
+                if (System.IO.File.Exists(photoPath))
+                {
+                    System.IO.File.Delete(photoPath);
+                }
+            }
         }
     }
 }

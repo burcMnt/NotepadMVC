@@ -15,23 +15,26 @@
     <div class="text-center">
         @if (string.IsNullOrEmpty(Model.Photo))
         {
-            <img src="~/images/no-avatar.png"  width="200" height="200" alt="no profile photo" /> <br />
+            <img src="~/images/no-avatar.png" width="200" height="200" alt="no profile photo" /> <br />
 
         }
         else
         {
             <img src="~/uploads/@Model.Photo" width="200" height="200" alt="no profile photo" /> <br />
 
-            <span>(<a href="#">Delete Photo</a>)</span>
+            <form asp-controller="ProfilePhoto" asp-action="DeletePhoto" method="post">
+                <button class="btn btn-link">Delete Photo</button>
+            </form>
         }
     </div>
 
     <form method="post" class="p-5" enctype="multipart/form-data">
         <label for="photo">Adding Photo :</label> <br />
-        <input type="file" name="photo" id="photo"/>
+        <input type="file" name="photo" id="photo" />
         <button class="btn btn-outline-primary">Add Photo</button>
         <div class="text-danger">
-           @Html.ValidationMessage("photo")
+            @Html.ValidationMessage("photo")
         </div>
     </form>
+
 </div>
