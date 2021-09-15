@@ -1,0 +1,10 @@
+﻿@model ProfilePhotoComponentViewModel
+
+@if (string.IsNullOrEmpty(Model.FileName))
+{
+    <img src="~/images/no-avatar.png" width="@Model.Width1" height="@Model.Height1" class="@Model.Class1" alt="no profile photo" />
+}
+else
+{
+    <img src="~/uploads/@Model.FileName" width="@Model.Width1" height="@Model.Height1" class="@Model.Class1" alt="profile photo" />
+}
